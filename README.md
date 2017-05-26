@@ -1,5 +1,5 @@
 # UNMigrationViz
-The goal of this project is to produce a responsive, mobile-ready web application for visualizing UN Migration Data from 1990-2015. You can see it [running live.](cogitam.usht
+The goal of this project is to produce a responsive, mobile-ready web application for visualizing UN Migration Data from 1990-2015. You can see it [running live.](http://cogitam.us)
 
 I've included the original data files I used, but you can also find them hosted by the UN here:
 https://www.un.org/en/development/desa/population/migration/data/estimates2/estimates15.shtml
