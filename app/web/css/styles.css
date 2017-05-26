@@ -1,0 +1,68 @@
+div.container {
+    overflow: scroll;
+    display: block;
+}
+
+.allSVG {
+    margin: 0;
+    padding: 0;
+}
+
+.svgText {
+    font-family: sans-serif;
+    fill: #323232;
+
+}
+
+input {
+    display: block;
+    font-family: sans-serif;
+    font-size: 24px;
+    width: 100%;
+    padding-left: 4px;
+}
+
+.searchResults {
+    position: absolute;
+    z-index: 1;
+    background: white;
+    opacity: .9;
+    font-family: sans-serif;
+    font-size: 20px;
+    border-radius: 2px;
+    padding: 4px;
+}
+
+.searchResult {
+    cursor: pointer;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.filterContainer {
+    border: 1px solid #323232;
+    border-radius: 2px;
+    height: 35px;
+    font-family: sans-serif;
+    font-size: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: auto;
+}
+
+.checkbox {
+    display: inline-block;
+    width: 20px;
+    margin: 0 0 0 10px;
+    vertical-align: -2px;
+}
+
+label {
+    vertical-align: -5px;
+    margin-right: 5px;
+}
+
+h1 {
+    font-family: sans-serif;
+    text-align: center;
+}
