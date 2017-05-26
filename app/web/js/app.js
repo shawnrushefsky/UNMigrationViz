@@ -296,18 +296,10 @@ function BarChart(data, options){
     var barSpace = options.barSpace || 5;
     var me = this;
     var w = options.width || 100;
-    var h = options.height || 400;
     var x = options.x || 0;
     var y = options.y || 0;
-    var boxDims = {
-        x: x,
-        y: y,
-        width: w,
-        height: h
-    };
     var titleHeight = options.titleHeight || 24;
     var barColor = options.barColor || 0;
-    this.orientation = options.orientation || "vertical";
     var bars = [];
     var text = [];
     var buffer = titleHeight*1.5;
@@ -320,58 +312,18 @@ function BarChart(data, options){
     };
     var textPos = function(d, i){
         text.push(this);
-        var mBuffer = me.orientation === "vertical" ? buffer : titleHeight;
-        return mBuffer + (barThickness*.9)+(i * (barThickness+barSpace));
+        return buffer + (barThickness*.9)+(i * (barThickness+barSpace));
     };
     var dataFunc = function(d){
         return d.value*dataScale;
     };
-    var barDims = {
-        vertical: {
-            x: 0,
-            y: barPos,
-            height: barThickness,
-            width: dataFunc,
-            scaleDim: "height"
-        },
-        horizontal: {
-            x: barPos,
-            y: 0,
-            width: barThickness,
-            height: dataFunc,
-            scaleDim: "width"
-        }
-    };
-    var textDims = {
-        vertical: {
-            x: 0,
-            y: textPos,
-            rot: 0
-        },
-        horizontal: {
-            x: textPos,
-            y: 0,
-            rot: 90
-        }
-    };
-    var other = {
-        height: "width",
-        width: "height",
-        x: "y",
-        y: "x"
-    };
-    var dataScale = boxDims[other[barDims[me.orientation].scaleDim]] / Math.max.apply(null, data);
-    // var div = d3.select("body")
-        // .append("div")
-        // .attr("class", "container")
-        // .style("left", x+'px')
-        // .style("top", y+'px')
-        // .style("width", w+'px')
-        // .style("height", h+'px');
+
+    var dataScale = w / Math.max.apply(null, data);
+
     var svg = d3.select("body")
         .append("svg")
-        .attr(barDims[me.orientation].scaleDim, data.length*(barThickness+barSpace)+buffer)
-        .attr(other[barDims[me.orientation].scaleDim], boxDims[other[barDims[me.orientation].scaleDim]])
+        .attr("height", data.length*(barThickness+barSpace)+buffer)
+        .attr("width", w)
         .attr("viewBox", "0 0 "+w+" "+titleHeight*1.5);
 
     this.title = function(title){
@@ -384,7 +336,6 @@ function BarChart(data, options){
             .attr("fill", "black")
             .attr("x", w/2)
             .style("text-anchor", "middle");
-            // .style("alignment-baseline", "middle")
     };
 
     this.title(defaultBarChartTitle);
@@ -404,7 +355,7 @@ function BarChart(data, options){
             mergeSort(dataSet, function(d){return -d.value;});
             maxVal = dataSet[0].value;
         }
-        dataScale = boxDims[other[barDims[me.orientation].scaleDim]] / maxVal;
+        dataScale = w / maxVal;
         var clicker = function(d){
             var path = d3.select(pathRef[d.label][0]);
             path.on("click")(path.data()[0]);
@@ -418,15 +369,15 @@ function BarChart(data, options){
             d3.select(bar).style("fill", rgbToHTML(dataColorsLight[barColor]));
         };
 
-        svg.attr(barDims[me.orientation].scaleDim, dataSet.length*(barThickness+barSpace)+buffer)
+        svg.attr("height", dataSet.length*(barThickness+barSpace)+buffer)
             .selectAll("rect")
             .data(dataSet)
             .enter()
             .append("rect")
-                .attr("x", barDims[me.orientation].x)
-                .attr("y", barDims[me.orientation].y)
-                .style("height", barDims[me.orientation].height)
-                .style("width", barDims[me.orientation].width)
+                .attr("x", 0)
+                .attr("y", barPos)
+                .style("height", barThickness)
+                .style("width", dataFunc)
                 .style("fill", rgbToHTML(dataColorsLight[barColor]))
                 .style("cursor", "pointer")
                 .on("mouseover", function(d, i){
@@ -441,14 +392,9 @@ function BarChart(data, options){
             .enter()
             .append("text")
 
-                .attr("x", textDims[me.orientation].x)
-                .attr("y", textDims[me.orientation].y)
+                .attr("x", 0)
+                .attr("y", textPos)
                 .style("text-anchor", "start")
-                .attr("transform", function(){
-                    var mx = d3.select(this).attr("x");
-                    var my = d3.select(this).attr("y");
-                    return "rotate("+textDims[me.orientation].rot+", "+mx+", "+my+")";
-                })
                 .attr("fill", "black")
                 .text(function(d){return d.label+"("+d.value.toLocaleString()+")";})
                 .attr("font-size", (barThickness*.9)+'px')
@@ -883,11 +829,11 @@ window.onload = function(){
     radioButtons["Immigration"] = makeRadioButton(flowBox, "direction", "Immigration");
     radioButtons["Emigration"].radio.attr("checked", true);
     flowDirection = "Emigration";
+
     wm = new WorldMap();
+
     wm.barChart = new BarChart([], {
-        width: window.innerWidth,
-        // height: window.innerWidth*(vertSplit/2),
-        orientation: "vertical"
+        width: window.innerWidth
     });
 };
 
