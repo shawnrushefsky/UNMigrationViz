@@ -412,13 +412,9 @@ function BarChart(data, options){
     };
     this.size = function(width){
         w = width;
-        boxDims.width = w;
         svg.attr("width", w);
         if(myData !== null){
             me.display(myTitle, myData, barColor);
-        }
-        else{
-            // svgTitle.attr("x", w/2);
         }
     };
 
