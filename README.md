@@ -7,7 +7,7 @@ I used open map data from [Natural Earth Data](http://www.naturalearthdata.com/d
 
 I'm using [d3.js](https://d3js.org/) to correlate my dataset with svg elements on the page, and [Ubuntu](https://www.ubuntu.com/)/[CherryPy](http://cherrypy.org/) for a web server.
 
-A brief python script `parse.py` extrapolates the migration graph from the UN datasets. The graph is stored as adjacency dictionary, so that it would be easy to reference nodes (countries) by their name, and easy to export in json.
+A brief python script `parse.py` extrapolates the migration graph from the UN datasets using [openpyxl](https://openpyxl.readthedocs.io/en/default/). The graph is stored as adjacency dictionary, so that it would be easy to reference nodes (countries) by their name, and easy to export in json.
 
 A second python script `stitch.py` associates the graph data from `parse.py` with the geojson file that describes the shape of each country, yielding a unified data file for use in the web application.
 
